@@ -44,21 +44,23 @@ export const AuthProvider = ({children}) => {
     const loadUser = async () => {
         try {
             setLoading(true);
-            const res = await axios.get("/api/auth/user");
+            
+            const res = await axios.get('/api/auth/user');
+
 
             if (res.data.user) {
+
                 setIsAuthenticated(true);
                 setLoading(false);
                 setUser(res.data.user);
+
             }
         } catch (error) {
+            console.error('Error loading user:', error);
             setLoading(false);
             setIsAuthenticated(false);
             setUser(null);
-            setError(
-                error.response &&
-                (error.response.data.detail || error.response.data.error)
-            );
+            setError(error.response && (error.response.data.detail || error.response.data.error));
         }
     };
 
@@ -70,4 +72,5 @@ export const AuthProvider = ({children}) => {
         </AuthContext.Provider>
     );
 };
+
 export default AuthContext;
